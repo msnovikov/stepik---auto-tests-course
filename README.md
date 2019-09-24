@@ -1,2 +1,2 @@
-# stepik-auto-tests-course
-Stepik-homework
+Решение задач из курса автоматизации тестирования на python
+
