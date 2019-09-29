@@ -3,6 +3,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
 link = "http://selenium1py.pythonanywhere.com/"
 
 
@@ -10,10 +11,12 @@ link = "http://selenium1py.pythonanywhere.com/"
 def browser():
     print("\nstart browser for test...")
     browser = webdriver.Chrome()
-    return browser
+    yield browser
+    print("\nquit browser...")
+    browser.quit()
 
 
-class TestMainPAge1:
+class TestMainPage:
 
     def test_quest_should_see_login_link(self, browser):
         browser.get(link)
