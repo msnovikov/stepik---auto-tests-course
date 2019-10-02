@@ -16,7 +16,7 @@ browser.get(test_page)
 try:
     num1 = int(browser.find_element(By.ID, "num1").text)
     num2 = int(browser.find_element(By.ID, "num2").text)
-    res  = calc_sum(num1, num2)
+    res = calc_sum(num1, num2)
     Select(browser.find_element(By.ID, "dropdown")).select_by_value(str(res))
     browser.find_element(By.CSS_SELECTOR, "button.btn").click()
 finally:
