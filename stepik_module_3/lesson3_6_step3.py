@@ -1,31 +1,35 @@
-import pytest
 import time
 import math
 
+import pytest
+
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 def get_answer():
     answer = math.log(int(time.time()))
-    return answer
+    return str(answer)
 
 
-link = ["236895"]
+lessons = ["236895", "236896", "236897", "236898",
+           "236899", "236903", "236904", "236905"]
 
 
 @pytest.fixture(scope="function")
 def browser():
     print("\nstart browser for test...")
     browser = webdriver.Chrome()
-    browser.implicitly_wait()
+    browser.implicitly_wait(3)
     yield browser
-    print("\nquit browser")
+    print("\nquit browser...")
     browser.quit()
 
 
-@pytest.mark.parametrize("page", link)
-def test_input_correct_answer(browser, page):
-    test_page = f"https://stepik.org/lesson/{page}/step/1"
-    browser.get(test_page)
-    browser.find_element_by_css_selector(".textarea").send_keys(get_answer())
-    time.sleep(3)
+@pytest.mark.parametrize("lesson", lessons)
+def test_parametrize_url(browser, lesson):
+    browser.get(f"https://stepik.org/lesson/{lesson}/step/1")
+    browser.find_element(By.CLASS_NAME, "textarea").send_keys(get_answer())
+    browser.find_element(By.CLASS_NAME, "submit-submission").click()
+    text = browser.find_element(By.CSS_SELECTOR, "div>pre").text
+    assert text == "Correct!", f"expected result: 'Correct!', actual result: {text}"
